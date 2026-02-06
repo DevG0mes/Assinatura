@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Assinatura - PSI Energy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <style>
+        body { background-color: #f8f9fa; padding: 20px; }
+        .preview-box {
+            background: white; /* Visualização na tela continua com fundo branco */
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow-x: auto; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Dados do Colaborador
+                </div>
+                <div class="card-body">
+                    <form id="formAssinatura">
+                        <div class="mb-3">
+                            <label>Nome:</label>
+                            <input type="text" class="form-control" id="inputNome" placeholder="Nome Exibição" oninput="atualizar()">
+                        </div>
+                        <div class="mb-3">
+                            <label>Cargo:</label>
+                            <input type="text" class="form-control" id="inputCargo" placeholder="Cargo" oninput="atualizar()">
+                        </div>
+                        <div class="mb-3">
+                            <label>Celular:</label>
+                            <input type="text" class="form-control" id="inputCelular" placeholder="Telefone" oninput="atualizar()">
+                        </div>
+                        <div class="mb-3">
+                            <label>E-mail:</label>
+                            <input type="text" class="form-control" id="inputEmail" placeholder="email@psienergy.com.br" oninput="atualizar()">
+                        </div>
+                    </form>
+                    <hr>
+                    <button class="btn btn-success w-100 mb-2" onclick="baixarImagem()">
+                        Baixar Assinatura (Imagem)
+                    </button>
+                    
+                    <button class="btn btn-primary w-100" onclick="baixarPacote()">
+                       Baixar Pacote Word 
+                    </button>
+                    
+                    <div class="alert alert-info mt-2" style="font-size: 12px;">
+                        <strong>Dica:</strong> A imagem PNG terá fundo transparente.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h4>Visualização:</h4>
+            <div class="preview-box">
+                
+                <div id="area-assinatura" style="background-color: transparent; display: inline-block; padding: 15px;">
+                    
+                    <table border="0" cellpadding="0" cellspacing="0" style="font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; line-height: 1.3;">
+                      <tr>
+                        
+                        <td valign="middle" style="padding-right: 25px;">
+                              <img src="/assets/Logo.png" alt="PSI Energy" width="180" style="display: inline-block; border: 0;">
+                        </td>
+
+                        <td valign="middle" style="padding-right: 20px;">
+                            <div style="padding-bottom: 2px;">
+                                <span id="var-nome" style="font-size: 9pt; font-weight: bold; color: #f37021;">Nome</span>
+                            </div>
+                            
+                            <div style="padding-bottom: 2px;">
+                                <span id="var-cargo" style="font-size: 8pt; color: #858585; font-style: italic;">Cargo</span>
+                            </div>
+                            
+                            <div style="font-size: 3pt; line-height: 3pt;">&nbsp;</div>
+                            
+                            <div style="padding-bottom: 2px;">
+                                <span id="var-celular" style="color: #858585;">Telefone</span>
+                            </div>
+
+                            <div>
+                                <a id="var-email-link" href="mailto:email" style="color: #858585; text-decoration: none;">
+                                    <span id="var-email">E-mail</span>
+                                </a>
+                            </div>
+                        </td>
+
+                        <td valign="middle" style="padding-right: 20px; font-style: italic;">
+                            
+                            <div style="padding-bottom: 2px;">
+                                <a href="https://www.psienergy.com.br" target="_blank" style="color: #858585; text-decoration: none;">www.psienergy.com.br</a>
+                            </div>
+
+                            <div style="padding-bottom: 2px; color: #858585;">
+                                (11) 4807-0708
+                            </div>
+
+                            <div style="color: #858585; max-width: 200px;">
+                                Av. Luiz Pellizzari 420 Distrito<br>
+                                Industrial Jundiaí/SP<br>
+                                CEP: 13.213-073
+                            </div>
+                        </td>
+
+                        <td style="border-left: 1px solid #858585; width: 1px;"></td>
+
+                        <td valign="middle" style="padding-left: 25px; text-align: center;">
+                            <img src="/assets/ISO.png" alt="Certificações ISO" width="160" style="display: inline-block; border: 0;">
+                        </td>
+
+                      </tr>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function atualizar() {
+        const nome = document.getElementById('inputNome').value;
+        const cargo = document.getElementById('inputCargo').value;
+        const celular = document.getElementById('inputCelular').value;
+        const email = document.getElementById('inputEmail').value;
+
+        // Atualiza textos
+        document.getElementById('var-nome').innerText = nome || "Nome";
+        document.getElementById('var-cargo').innerText = cargo || "Cargo";
+        document.getElementById('var-celular').innerText = celular || "Telefone";
+        document.getElementById('var-email').innerText = email || "E-mail";
+        
+        // Atualiza Link mailto
+        document.getElementById('var-email-link').href = "mailto:" + (email || "email@psienergy.com.br");
+    }
+
+    // BAIXAR IMAGEM (PNG Transparente)
+    function baixarImagem() {
+        const area = document.getElementById("area-assinatura");
+        
+        // backgroundColor: null garante a transparência
+        html2canvas(area, {
+            scale: 2, 
+            useCORS: true,
+            backgroundColor: null
+        }).then(canvas => {
+            const link = document.createElement('a');
+            const nomeArquivo = document.getElementById('inputNome').value || "Assinatura";
+            link.download = 'Assinatura_' + nomeArquivo + '.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
+
+    // BAIXAR ZIP (WORD) - Chama o Backend Go
+    function baixarPacote() {
+        const nome = document.getElementById('inputNome').value || "Nome Exibição";
+        const cargo = document.getElementById('inputCargo').value || "Cargo";
+        const celular = document.getElementById('inputCelular').value || "telefone";
+        const email = document.getElementById('inputEmail').value || "email@psienergy.com.br";
+
+        const params = new URLSearchParams({
+            nome: nome,
+            cargo: cargo,
+            celular: celular,
+            email: email
+        });
+
+        window.location.href = `/download-pack?${params.toString()}`;
+    }
+</script>
+
+</body>
+</html>
