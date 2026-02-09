@@ -25,10 +25,10 @@ func main() {
 	})
 
 	r.GET("/download-pack", func(c *gin.Context) {
-		nome := c.DefaultQuery("nome", "João Gomes")
-		cargo := c.DefaultQuery("cargo", "Trainee TI")
-		celular := c.DefaultQuery("celular", "(11) 94944-0146")
-		email := c.DefaultQuery("email", "joao.gomes@psienergy.com.br")
+		nome := c.DefaultQuery("nome", "Nome")
+		cargo := c.DefaultQuery("cargo", "Cargo")
+		celular := c.DefaultQuery("celular", "Telefone")
+		email := c.DefaultQuery("email", "email@psienergy.com.br")
 
 		buf := new(bytes.Buffer)
 		zipWriter := zip.NewWriter(buf)
