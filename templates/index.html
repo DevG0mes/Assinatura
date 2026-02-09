@@ -31,28 +31,28 @@
                     <form id="formAssinatura">
                         <div class="mb-3">
                             <label>Nome:</label>
-                            <input type="text" class="form-control" id="inputNome" placeholder="João Gomes" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputNome" placeholder="Nome Teams" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
                             <label>Cargo:</label>
-                            <input type="text" class="form-control" id="inputCargo" placeholder="Trainee TI" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputCargo" placeholder="Cargo" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
                             <label>Celular:</label>
-                            <input type="text" class="form-control" id="inputCelular" placeholder="(11) 94944-0146" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputCelular" placeholder="(00) 00000-0000" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
                             <label>E-mail:</label>
-                            <input type="text" class="form-control" id="inputEmail" placeholder="joao.gomes@psienergy.com.br" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputEmail" placeholder="email@psienergy.com.br" oninput="atualizar()">
                         </div>
                     </form>
                     <hr>
                     <button class="btn btn-success w-100 mb-2" onclick="baixarImagem()">
-                        📷 Baixar Assinatura (PNG Transparente)
+                         Baixar Assinatura PNG
                     </button>
                     
                     <button class="btn btn-primary w-100" onclick="baixarPacote()">
-                        📦 Baixar Pacote Word (ZIP)
+                         Baixar Pacote Editavel 
                     </button>
                     
                     <div class="alert alert-info mt-2" style="font-size: 12px;">
@@ -166,10 +166,10 @@
 
     // BAIXAR ZIP (WORD) - Chama o Backend Go
     function baixarPacote() {
-        const nome = document.getElementById('inputNome').value || "João Gomes";
-        const cargo = document.getElementById('inputCargo').value || "Trainee TI";
-        const celular = document.getElementById('inputCelular').value || "(11) 94944-0146";
-        const email = document.getElementById('inputEmail').value || "joao.gomes@psienergy.com.br";
+        const nome = document.getElementById('inputNome').value || "Nome";
+        const cargo = document.getElementById('inputCargo').value || "Cargo";
+        const celular = document.getElementById('inputCelular').value || "Telefone";
+        const email = document.getElementById('inputEmail').value || "email@psienergy.com.br";
 
         const params = new URLSearchParams({
             nome: nome,
