@@ -31,32 +31,32 @@
                     <form id="formAssinatura">
                         <div class="mb-3">
                             <label>Nome:</label>
-                            <input type="text" class="form-control" id="inputNome" placeholder="Nome Exibição" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputNome" placeholder="João Gomes" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
                             <label>Cargo:</label>
-                            <input type="text" class="form-control" id="inputCargo" placeholder="Cargo" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputCargo" placeholder="Trainee TI" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
                             <label>Celular:</label>
-                            <input type="text" class="form-control" id="inputCelular" placeholder="Telefone" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputCelular" placeholder="(11) 94944-0146" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
                             <label>E-mail:</label>
-                            <input type="text" class="form-control" id="inputEmail" placeholder="email@psienergy.com.br" oninput="atualizar()">
+                            <input type="text" class="form-control" id="inputEmail" placeholder="joao.gomes@psienergy.com.br" oninput="atualizar()">
                         </div>
                     </form>
                     <hr>
                     <button class="btn btn-success w-100 mb-2" onclick="baixarImagem()">
-                        Baixar Assinatura (Imagem)
+                        📷 Baixar Assinatura (PNG Transparente)
                     </button>
                     
                     <button class="btn btn-primary w-100" onclick="baixarPacote()">
-                       Baixar Pacote Word 
+                        📦 Baixar Pacote Word (ZIP)
                     </button>
                     
                     <div class="alert alert-info mt-2" style="font-size: 12px;">
-                        <strong>Dica:</strong> A imagem PNG terá fundo transparente.
+                        <strong>Dica:</strong> A imagem PNG terá fundo transparente. Para o Outlook, use o Pacote Word.
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                       <tr>
                         
                         <td valign="middle" style="padding-right: 25px;">
-                              <img src="/assets/Logo.png" alt="PSI Energy" width="180" style="display: inline-block; border: 0;">
+                              <img src="/assets/Logo2.png" alt="PSI Energy" width="201" style="display: inline-block; border: 0; height: auto;">
                         </td>
 
                         <td valign="middle" style="padding-right: 20px;">
@@ -87,7 +87,7 @@
                             <div style="font-size: 3pt; line-height: 3pt;">&nbsp;</div>
                             
                             <div style="padding-bottom: 2px;">
-                                <span id="var-celular" style="color: #858585;"></span>
+                                <span id="var-celular" style="color: #858585;">Telefone</span>
                             </div>
 
                             <div>
@@ -166,10 +166,10 @@
 
     // BAIXAR ZIP (WORD) - Chama o Backend Go
     function baixarPacote() {
-        const nome = document.getElementById('inputNome').value || "Nome Exibição";
-        const cargo = document.getElementById('inputCargo').value || "Cargo";
-        const celular = document.getElementById('inputCelular').value || "telefone";
-        const email = document.getElementById('inputEmail').value || "email@psienergy.com.br";
+        const nome = document.getElementById('inputNome').value || "João Gomes";
+        const cargo = document.getElementById('inputCargo').value || "Trainee TI";
+        const celular = document.getElementById('inputCelular').value || "(11) 94944-0146";
+        const email = document.getElementById('inputEmail').value || "joao.gomes@psienergy.com.br";
 
         const params = new URLSearchParams({
             nome: nome,
