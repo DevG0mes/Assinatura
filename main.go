@@ -25,16 +25,16 @@ func main() {
 	})
 
 	r.GET("/download-pack", func(c *gin.Context) {
-		nome := c.DefaultQuery("nome", "Nome Exibição")
-		cargo := c.DefaultQuery("cargo", "Cargo")
-		celular := c.DefaultQuery("celular", "telefone")
-		email := c.DefaultQuery("email", "email@psienergy.com.br")
+		nome := c.DefaultQuery("nome", "João Gomes")
+		cargo := c.DefaultQuery("cargo", "Trainee TI")
+		celular := c.DefaultQuery("celular", "(11) 94944-0146")
+		email := c.DefaultQuery("email", "joao.gomes@psienergy.com.br")
 
 		buf := new(bytes.Buffer)
 		zipWriter := zip.NewWriter(buf)
 
 		imagens := []string{
-			"assets/Logo.png",
+			"assets/Logo2.png",
 			"assets/ISO.png",
 		}
 
@@ -50,8 +50,7 @@ func main() {
 		}
 
 		// HTML FINAL - BLINDADO PARA OUTLOOK
-		// Estratégia: Estilos INLINE em todos os elementos de texto.
-		// Cor: #858585 | Fonte: Verdana | Tamanho: 8pt (9pt para Nome)
+		// Medidas Exatas: 5,33cm (201px) x 1,55cm (59px)
 		const docTemplateHTML = `
 		<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
 		<head>
@@ -61,7 +60,7 @@ func main() {
 				/* Fallback para visualizadores web */
 				body { font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; }
 				
-				/* Media Query para Dark Mode (Tentativa de suporte) */
+				/* Media Query para Dark Mode */
 				@media only screen and (prefers-color-scheme: dark) {
 					.texto-comum, .link-texto { color: #E0E0E0 !important; }
 					.nome-destaque { color: #FF8C42 !important; }
@@ -71,11 +70,11 @@ func main() {
 		</head>
 		<body style="margin:0; padding:0;">
 			
-			<table width="780" border="0" cellspacing="0" cellpadding="0" style="width:780px; border-collapse: collapse;">
+			<table width="800" border="0" cellspacing="0" cellpadding="0" style="width:800px; border-collapse: collapse;">
 				<tr valign="middle">
 					
-					<td width="200" align="right" valign="middle" style="padding-right: 15px;">
-						<img src="Logo.png" width="180" height="66" alt="PSI Energy" style="display:block; border:0; width:180px; height:66px;">
+					<td width="220" align="right" valign="middle" style="padding-right: 15px;">
+						<img src="Logo2.png" width="201" height="59" alt="PSI Energy" style="display:block; border:0; width:201px; height:59px;">
 					</td>
 
 					<td width="220" valign="middle" style="padding-right: 10px;">
