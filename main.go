@@ -27,12 +27,13 @@ func main() {
 	r.GET("/download-pack", func(c *gin.Context) {
 		nome := c.DefaultQuery("nome", "Nome")
 		cargo := c.DefaultQuery("cargo", "Cargo")
-		celular := c.DefaultQuery("celular", "Telefone")
+		celular := c.DefaultQuery("celular", "")
 		email := c.DefaultQuery("email", "email@psienergy.com.br")
 
 		buf := new(bytes.Buffer)
 		zipWriter := zip.NewWriter(buf)
 
+		// Nota: Mantive "Logo2.png" conforme seu código enviado
 		imagens := []string{
 			"assets/Logo2.png",
 			"assets/ISO.png",
@@ -49,18 +50,18 @@ func main() {
 			file.Close()
 		}
 
-		// HTML FINAL - BLINDADO PARA OUTLOOK
-		// Medidas Exatas: 5,33cm (201px) x 1,55cm (59px)
+		// HTML FINAL - CORREÇÃO DE ALINHAMENTO E MEDIDAS
+		// Medidas Logo: 201px (5,33cm) x 59px (1,55cm)
 		const docTemplateHTML = `
 		<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
 		<head>
 			<meta charset='utf-8'>
 			<title>Assinatura PSI</title>
 			<style>
-				/* Fallback para visualizadores web */
+				/* Estilos Globais */
 				body { font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; }
 				
-				/* Media Query para Dark Mode */
+				/* Dark Mode Support */
 				@media only screen and (prefers-color-scheme: dark) {
 					.texto-comum, .link-texto { color: #E0E0E0 !important; }
 					.nome-destaque { color: #FF8C42 !important; }
@@ -77,15 +78,11 @@ func main() {
 						<img src="Logo2.png" width="201" height="59" alt="PSI Energy" style="display:block; border:0; width:201px; height:59px;">
 					</td>
 
-					<td width="220" valign="middle" style="padding-right: 10px;">
+					<td width="220" valign="middle" style="padding-right: 10px; margin:0; padding-left:0;">
 						<span class="nome-destaque" style="font-family: Verdana, sans-serif; font-size: 9pt; color: #F37021; font-weight: bold;">{{.Nome}}</span><br>
-						
 						<span class="texto-comum" style="font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; font-style: italic;">{{.Cargo}}</span><br>
-						
-						<span style="font-size: 3pt; line-height: 3pt; display:block;">&nbsp;</span>
-
-						<span class="texto-comum" style="font-family: Verdana, sans-serif; font-size: 8pt; color: #858585;">{{.Celular}}</span><br>
-						
+						<div style="height: 4px; line-height: 4px; font-size: 1px; margin:0; padding:0;"></div>
+						<span class="texto-comum" style="font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; margin:0;">{{.Celular}}</span><br>
 						<a href="mailto:{{.Email}}" style="text-decoration:none;">
 							<span class="link-texto" style="font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; text-decoration:none;">{{.Email}}</span>
 						</a>
