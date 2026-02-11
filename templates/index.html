@@ -10,7 +10,7 @@
     <style>
         body { background-color: #f8f9fa; padding: 20px; }
         .preview-box {
-            background: white; /* Visualização na tela continua com fundo branco */
+            background: white;
             padding: 20px;
             border: 1px solid #ddd;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -38,8 +38,8 @@
                             <input type="text" class="form-control" id="inputCargo" placeholder="Cargo" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
-                            <label>Celular:</label>
-                            <input type="text" class="form-control" id="inputCelular" placeholder="(00) 00000-0000" oninput="atualizar()">
+                            <label>Celular (Somente números):</label>
+                            <input type="text" class="form-control" id="inputCelular" placeholder="11999998888" maxlength="11" oninput="atualizar()">
                         </div>
                         <div class="mb-3">
                             <label>E-mail:</label>
@@ -48,11 +48,11 @@
                     </form>
                     <hr>
                     <button class="btn btn-success w-100 mb-2" onclick="baixarImagem()">
-                         Baixar Assinatura PNG
+                         📷 Baixar Assinatura PNG
                     </button>
                     
                     <button class="btn btn-primary w-100" onclick="baixarPacote()">
-                         Baixar Pacote Editavel 
+                         📦 Baixar Pacote Editavel (Word)
                     </button>
                     
                     <div class="alert alert-info mt-2" style="font-size: 12px;">
@@ -87,7 +87,7 @@
                             <div style="font-size: 3pt; line-height: 3pt;">&nbsp;</div>
                             
                             <div style="padding-bottom: 2px;">
-                                <span id="var-celular" style="color: #858585;"></span>
+                                <span id="var-celular" style="color: #858585;">(11) 99999-9999</span>
                             </div>
 
                             <div>
@@ -108,8 +108,8 @@
                             </div>
 
                             <div style="color: #858585; max-width: 200px;">
-                                Av. Luiz Pellizzari 420 Distrito<br>
-                                Industrial Jundiaí/SP<br>
+                                Av. Luiz Pellizzari 420 <br>
+                                Distrito Industrial Jundiaí/SP<br>
                                 CEP: 13.213-073
                             </div>
                         </td>
@@ -130,16 +130,27 @@
 </div>
 
 <script>
+    // Função de máscara para o telefone
+    function formatarTelefone(v) {
+        v = v.replace(/\D/g, ""); // Remove tudo o que não é dígito
+        v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); // Coloca parênteses em volta dos dois primeiros dígitos
+        v = v.replace(/(\d)(\d{4})$/, "$1-$2"); // Coloca hífen entre o quarto e o quinto dígitos
+        return v;
+    }
+
     function atualizar() {
         const nome = document.getElementById('inputNome').value;
         const cargo = document.getElementById('inputCargo').value;
-        const celular = document.getElementById('inputCelular').value;
+        let celular = document.getElementById('inputCelular').value; // Pega valor cru
         const email = document.getElementById('inputEmail').value;
 
-        // Atualiza textos
+        // Aplica a formatação visual
+        const celularFormatado = formatarTelefone(celular);
+
+        // Atualiza textos na tela
         document.getElementById('var-nome').innerText = nome || "Nome";
         document.getElementById('var-cargo').innerText = cargo || "Cargo";
-        document.getElementById('var-celular').innerText = celular || "";
+        document.getElementById('var-celular').innerText = celularFormatado || "(11) 99999-9999";
         document.getElementById('var-email').innerText = email || "E-mail";
         
         // Atualiza Link mailto
@@ -150,7 +161,6 @@
     function baixarImagem() {
         const area = document.getElementById("area-assinatura");
         
-        // backgroundColor: null garante a transparência
         html2canvas(area, {
             scale: 2, 
             useCORS: true,
@@ -168,7 +178,7 @@
     function baixarPacote() {
         const nome = document.getElementById('inputNome').value || "Nome";
         const cargo = document.getElementById('inputCargo').value || "Cargo";
-        const celular = document.getElementById('inputCelular').value || "Telefone";
+        const celular = document.getElementById('inputCelular').value || ""; 
         const email = document.getElementById('inputEmail').value || "email@psienergy.com.br";
 
         const params = new URLSearchParams({
