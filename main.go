@@ -8,11 +8,31 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp" // Adicionado para tratar a formatação
 	"strings"
 	"text/template"
 
 	"github.com/gin-gonic/gin"
 )
+
+// Função auxiliar para formatar telefone no Backend
+func formatarTelefone(telefone string) string {
+	// 1. Remove tudo que não for número
+	re := regexp.MustCompile(`\D`)
+	numeros := re.ReplaceAllString(telefone, "")
+
+	// 2. Formata dependendo do tamanho (11 dígitos para celular, 10 para fixo)
+	if len(numeros) == 11 {
+		// Ex: 11949440146 -> (11) 94944-0146
+		return fmt.Sprintf("(%s) %s-%s", numeros[0:2], numeros[2:7], numeros[7:])
+	} else if len(numeros) == 10 {
+		// Ex: 1148070708 -> (11) 4807-0708
+		return fmt.Sprintf("(%s) %s-%s", numeros[0:2], numeros[2:6], numeros[6:])
+	}
+
+	// Se não encaixar, retorna o original
+	return telefone
+}
 
 func main() {
 	r := gin.Default()
@@ -27,13 +47,16 @@ func main() {
 	r.GET("/download-pack", func(c *gin.Context) {
 		nome := c.DefaultQuery("nome", "Nome")
 		cargo := c.DefaultQuery("cargo", "Cargo")
-		celular := c.DefaultQuery("celular", "")
+		
+		// Captura o celular cru e aplica a formatação
+		rawCelular := c.DefaultQuery("celular", "")
+		celular := formatarTelefone(rawCelular)
+
 		email := c.DefaultQuery("email", "email@psienergy.com.br")
 
 		buf := new(bytes.Buffer)
 		zipWriter := zip.NewWriter(buf)
 
-		// Nota: Mantive "Logo2.png" conforme seu código enviado
 		imagens := []string{
 			"assets/Logo2.png",
 			"assets/ISO.png",
@@ -50,7 +73,7 @@ func main() {
 			file.Close()
 		}
 
-		// HTML FINAL - CORREÇÃO DE ALINHAMENTO E MEDIDAS
+		// HTML FINAL - BLINDADO PARA OUTLOOK
 		// Medidas Logo: 201px (5,33cm) x 59px (1,55cm)
 		const docTemplateHTML = `
 		<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
@@ -96,8 +119,8 @@ func main() {
 						<span class="texto-comum" style="font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; font-style: italic;">(11) 4807-0708</span><br>
 						
 						<span class="texto-comum" style="font-family: Verdana, sans-serif; font-size: 8pt; color: #858585; font-style: italic;">
-							Av. Luiz Pellizzari 420 Distrito<br>
-							Industrial Jundiaí/SP<br>
+							Av. Luiz Pellizzari 420 <br>
+							Distrito Industrial Jundiaí/SP<br>
 							CEP: 13.213-073
 						</span>
 					</td>
@@ -125,7 +148,7 @@ func main() {
 		err = tmpl.Execute(&docBuffer, gin.H{
 			"Nome":    nome,
 			"Cargo":   cargo,
-			"Celular": celular,
+			"Celular": celular, // Usa a variável já formatada
 			"Email":   email,
 		})
 		if err != nil {
