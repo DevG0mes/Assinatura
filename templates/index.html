@@ -31,22 +31,22 @@
                     <form id="formAssinatura" action="/download-pack" method="GET">
                         <div class="mb-3">
                             <label>Nome Completo <span style="color: red;">*</span></label>
-                            <input type="text" name="nome" placeholder="Nome de Exibição Teams" class="form-control" id="inputNome" required>
+                            <input type="text" name="nome" placeholder="Nome de Exibição Teams" class="form-control" id="inputNome"  required oninput="atualizar()">
                         </div>
 
                         <div class="mb-3">
                             <label>Cargo <span style="color: red;">*</span></label>
-                            <input type="text" name="cargo" placeholder="Cargo" class="form-control" id="inputCargo" required>
+                            <input type="text" name="cargo" placeholder="Cargo" class="form-control" id="inputCargo" required oninput="atualizar()">
                         </div>
 
                         <div class="mb-3">
                             <label>E-mail <span style="color: red;">*</span></label>
-                            <input type="email" name="email" placeholder="email@psienergy.com.br" class="form-control" id="inputEmail" required>
+                            <input type="email" name="email" placeholder="email@psienergy.com.br" class="form-control" id="inputEmail" required oninput="atualizar()">
                         </div>
 
                         <div class="mb-3">
                             <label>Celular Corporativo</label>
-                            <input type="text" name="celular" placeholder="11999999999" class="form-control" id="inputCelular">
+                            <input type="text" name="celular" placeholder="11999999999" class="form-control" id="inputCelular" oninput="atualizar()">
                         </div>
                     </form>
                     <hr>
