@@ -28,35 +28,38 @@
                     Dados do Colaborador
                 </div>
                 <div class="card-body">
-                    <form id="formAssinatura">
+                    <form id="formAssinatura" action="/download-pack" method="GET">
                         <div class="mb-3">
-                            <label>Nome:</label>
-                            <input type="text" class="form-control" id="inputNome" placeholder="Nome Teams" oninput="atualizar()">
+                            <label>Nome Completo <span style="color: red;">*</span></label>
+                            <input type="text" name="nome" placeholder="Nome de Exibição Teams" class="form-control" id="inputNome" required>
                         </div>
+
                         <div class="mb-3">
-                            <label>Cargo:</label>
-                            <input type="text" class="form-control" id="inputCargo" placeholder="Cargo" oninput="atualizar()">
+                            <label>Cargo <span style="color: red;">*</span></label>
+                            <input type="text" name="cargo" placeholder="Cargo" class="form-control" id="inputCargo" required>
                         </div>
+
                         <div class="mb-3">
-                            <label>Celular (Somente números):</label>
-                            <input type="text" class="form-control" id="inputCelular" placeholder="11999998888" maxlength="11" oninput="atualizar()">
+                            <label>E-mail <span style="color: red;">*</span></label>
+                            <input type="email" name="email" placeholder="email@psienergy.com.br" class="form-control" id="inputEmail" required>
                         </div>
+
                         <div class="mb-3">
-                            <label>E-mail:</label>
-                            <input type="text" class="form-control" id="inputEmail" placeholder="email@psienergy.com.br" oninput="atualizar()">
+                            <label>Celular Corporativo</label>
+                            <input type="text" name="celular" placeholder="11999999999" class="form-control" id="inputCelular">
                         </div>
                     </form>
                     <hr>
                     <button class="btn btn-success w-100 mb-2" onclick="baixarImagem()">
-                         📷 Baixar Assinatura PNG
+                         Baixar Assinatura PNG
                     </button>
                     
                     <button class="btn btn-primary w-100" onclick="baixarPacote()">
-                         📦 Baixar Pacote Editavel (Word)
-                    </button>
+                         Baixar Pacote Editavel (Word)
+                    </button>   
                     
                     <div class="alert alert-info mt-2" style="font-size: 12px;">
-                        <strong>Dica:</strong> A imagem PNG terá fundo transparente. Para o Outlook, use o Pacote Word.
+                        <strong>Dica:</strong> Deve-se utilizar o botão "Baixar Pacote Editavel (Word)" para obter um arquivo editável no Word.
                     </div>
                 </div>
             </div>
@@ -175,21 +178,42 @@
     }*/
 
     // BAIXAR ZIP (WORD) - Chama o Backend Go
-    function baixarPacote() {
-        const nome = document.getElementById('inputNome').value || "Nome";
-        const cargo = document.getElementById('inputCargo').value || "Cargo";
-        const celular = document.getElementById('inputCelular').value || ""; 
-        const email = document.getElementById('inputEmail').value || "email@psienergy.com.br";
+   function baixarPacote() {
+    // 1. Captura os valores removendo espaços extras (trim)
+    const nome = document.getElementById('inputNome').value.trim();
+    const cargo = document.getElementById('inputCargo').value.trim();
+    const email = document.getElementById('inputEmail').value.trim();
+    const celular = document.getElementById('inputCelular').value.trim(); 
 
-        const params = new URLSearchParams({
-            nome: nome,
-            cargo: cargo,
-            celular: celular,
-            email: email
-        });
-
-        window.location.href = `/download-pack?${params.toString()}`;
+    // 2. Validação: Verifica se os campos obrigatórios estão vazios
+    if (!nome || !cargo || !email) {
+        alert(" Por favor, preencha todos os campos obrigatórios (Nome, Cargo e E-mail) antes de baixar.");
+        
+        // Opcional: foca no primeiro campo vazio para ajudar o usuário
+        if (!nome) document.getElementById('inputNome').focus();
+        else if (!cargo) document.getElementById('inputCargo').focus();
+        else if (!email) document.getElementById('inputEmail').focus();
+        
+        return; // Interrompe a execução e não inicia o download
     }
+
+    // 3. Validação extra de formato de e-mail (opcional, mas recomendado)
+    if (!email.includes("@") || !email.includes(".")) {
+        alert("Por favor, insira um e-mail válido.");
+        document.getElementById('inputEmail').focus();
+        return;
+    }
+
+    // 4. Se passou nas validações, gera os parâmetros e inicia o download
+    const params = new URLSearchParams({
+        nome: nome,
+        cargo: cargo,
+        celular: celular, // Opcional, pode ir vazio
+        email: email
+    });
+
+    window.location.href = `/download-pack?${params.toString()}`;
+}
 </script>
 
 </body>
